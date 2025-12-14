@@ -74,14 +74,24 @@ try
         var configuredPath = builder.Configuration["Firebase:ServiceAccountPath"]; // optional configured path
         string filePathToUse = null;
 
-        if (!string.IsNullOrWhiteSpace(configuredPath) && File.Exists(configuredPath))
+        // Resolve configured path relative to content root when not rooted
+        if (!string.IsNullOrWhiteSpace(configuredPath))
         {
-            filePathToUse = configuredPath;
+            var contentRoot = builder.Environment.ContentRootPath;
+            var resolvedPath = Path.IsPathRooted(configuredPath)
+                ? configuredPath
+                : Path.Combine(contentRoot, configuredPath);
+
+            if (File.Exists(resolvedPath))
+            {
+                filePathToUse = resolvedPath;
+            }
         }
-        else
+
+        if (filePathToUse == null)
         {
             // fallback to local deployment file name serviceAccountKey.json in content root
-            var localPath = Path.Combine(AppContext.BaseDirectory, "serviceAccountKey.json");
+            var localPath = Path.Combine(builder.Environment.ContentRootPath, "serviceAccountKey.json");
             if (File.Exists(localPath)) filePathToUse = localPath;
         }
 
