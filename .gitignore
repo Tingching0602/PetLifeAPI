@@ -1,0 +1,101 @@
+# .NET build outputs
+bin/
+obj/
+
+# Visual Studio files
+.vs/
+*.user
+*.rsuser
+*.suo
+*.userosscache
+*.usertasks
+
+# Rider / ReSharper
+.idea/
+*.sln.iml
+
+# VS Code
+.vscode/
+
+# NuGet
+packages/
+*.nupkg
+# Package restore caches
+**/project.lock.json
+
+# Logs and diagnostics
+*.log
+logs/
+TestResult*/
+
+# Coverage
+coverage/
+*.coverage
+*.coveragexml
+
+# Build artifacts
+artifacts/
+
+# Temporary files
+*.tmp
+*.temp
+~$*
+
+# Publish outputs
+wwwroot/
+*/wwwroot/
+
+# User-specific
+*.swp
+*.orig
+.DS_Store
+Thumbs.db
+
+# ASP.NET scaffolding
+ScaffoldingReadMe.txt
+
+# Configuration secrets (use user secrets or env vars instead)
+appsettings.Development.json
+appsettings.Local.json
+
+# EF Core
+Migrations/obj/
+
+# Docker
+**/.dockerignore
+**/Dockerfile*
+
+# Backup files
+*.bak
+*.old
+
+# OneDrive sync artifacts
+*.lnk
+*.tmp.drivedownload
+
+# Node (if front-end assets exist)
+node_modules/
+
+# Python (if tooling/scripts exist)
+__pycache__/
+*.pyc
+
+# JetBrains caches
+/.cache/
+
+# Images generated or exported
+*.png
+*.jpg
+*.jpeg
+*.gif
+
+# Azure Functions local settings
+local.settings.json
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.backup
+
+# Misc
+*.sln.docstates
