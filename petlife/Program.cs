@@ -24,9 +24,11 @@ builder.Services.AddControllers();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", policy =>
-        policy.AllowAnyOrigin()
-              .AllowAnyMethod()
-              .AllowAnyHeader());
+        policy.WithOrigins(
+                "https://petlife-new-2026-c5db8.web.app"
+            )
+            .AllowAnyMethod()
+            .AllowAnyHeader());
 });
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

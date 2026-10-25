@@ -40,7 +40,7 @@ public class Pet
  [MaxLength(500)]
  public string? AvatarUrl { get; set; }
 
- public DateTime? PassingDate { get; set; }
+ public DateTime? PassedAwayDate { get; set; }
 
  public string? Notes { get; set; }
 
