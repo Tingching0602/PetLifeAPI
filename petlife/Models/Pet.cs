@@ -40,6 +40,8 @@ public class Pet
  [MaxLength(500)]
  public string? AvatarUrl { get; set; }
 
+ public DateTime? PassingDate { get; set; }
+
  public string? Notes { get; set; }
 
  public DateTime CreatedAt { get; set; } = DateTime.UtcNow;

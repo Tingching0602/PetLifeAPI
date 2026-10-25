@@ -31,15 +31,16 @@ public class PetsController : ControllerBase
  }
 
  [HttpPost]
- public async Task<ActionResult<int>> Create(Pet pet)
+ public async Task<ActionResult<Pet>> Create(Pet pet)
  {
  pet.CreatedAt = DateTime.UtcNow;
  pet.UpdatedAt = DateTime.UtcNow;
- var sql = @"INSERT INTO Pets(Name, Species, Breed, Gender, BirthDate, AdoptDate, WeightKg, Neutered, MicrochipNumber, Color, AvatarUrl, Notes, CreatedAt, UpdatedAt)
- VALUES(@Name, @Species, @Breed, @Gender, @BirthDate, @AdoptDate, @WeightKg, @Neutered, @MicrochipNumber, @Color, @AvatarUrl, @Notes, @CreatedAt, @UpdatedAt);
+ var sql = @"INSERT INTO Pets(Name, Species, Breed, Gender, BirthDate, AdoptDate, WeightKg, Neutered, MicrochipNumber, Color, AvatarUrl, PassingDate, Notes, CreatedAt, UpdatedAt)
+ VALUES(@Name, @Species, @Breed, @Gender, @BirthDate, @AdoptDate, @WeightKg, @Neutered, @MicrochipNumber, @Color, @AvatarUrl, @PassingDate, @Notes, @CreatedAt, @UpdatedAt);
  SELECT CAST(SCOPE_IDENTITY() as int);";
  var newId = await _db.ExecuteScalarAsync<int>(sql, pet);
- return CreatedAtAction(nameof(GetById), new { id = newId }, newId);
+ var created = await _db.QuerySingleOrDefaultAsync<Pet>("SELECT * FROM Pets WHERE Id = @Id", new { Id = newId });
+ return CreatedAtAction(nameof(GetById), new { id = newId }, created);
  }
 
  [HttpPut("{id:int}")]
@@ -47,7 +48,7 @@ public class PetsController : ControllerBase
  {
  if (id != pet.Id) return BadRequest();
  pet.UpdatedAt = DateTime.UtcNow;
- var sql = @"UPDATE Pets SET Name=@Name, Species=@Species, Breed=@Breed, Gender=@Gender, BirthDate=@BirthDate, AdoptDate=@AdoptDate, WeightKg=@WeightKg, Neutered=@Neutered, MicrochipNumber=@MicrochipNumber, Color=@Color, AvatarUrl=@AvatarUrl, Notes=@Notes, UpdatedAt=@UpdatedAt WHERE Id=@Id";
+ var sql = @"UPDATE Pets SET Name=@Name, Species=@Species, Breed=@Breed, Gender=@Gender, BirthDate=@BirthDate, AdoptDate=@AdoptDate, WeightKg=@WeightKg, Neutered=@Neutered, MicrochipNumber=@MicrochipNumber, Color=@Color, AvatarUrl=@AvatarUrl, PassingDate=@PassingDate, Notes=@Notes, UpdatedAt=@UpdatedAt WHERE Id=@Id";
  var rows = await _db.ExecuteAsync(sql, pet);
  return rows ==0 ? NotFound() : NoContent();
  }
