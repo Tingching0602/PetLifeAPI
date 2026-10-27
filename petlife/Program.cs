@@ -20,17 +20,19 @@ if (string.IsNullOrWhiteSpace(configuredUrls))
 }
 
 builder.Services.AddControllers();
-// CORS: allow all origins, methods, headers
+// Allow Firebase Hosting to access Azure API
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAll", policy =>
+    options.AddPolicy("AllowFirebase", policy =>
+    {
         policy.WithOrigins(
-                "https://petlife-new-2026-c5db8.web.app"
-            )
-            .AllowAnyMethod()
-            .AllowAnyHeader());
+            "https://petlife-new-2026-c5db8.web.app",
+            "https://petlife-new-2026-c5db8.firebaseapp.com"
+        )
+        .AllowAnyHeader()
+        .AllowAnyMethod();
+    });
 });
-
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
@@ -153,8 +155,10 @@ if (!string.IsNullOrWhiteSpace(urlsForRedirectCheck) && urlsForRedirectCheck.Con
 // Serve static files (for uploaded images in wwwroot)
 app.UseStaticFiles();
 
+app.UseRouting();
+
 // Enable CORS
-app.UseCors("AllowAll");
+app.UseCors("AllowFirebase");
 
 app.UseAuthentication();
 app.UseAuthorization();

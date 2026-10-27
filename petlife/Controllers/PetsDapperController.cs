@@ -35,8 +35,8 @@ public class PetsController : ControllerBase
  {
  pet.CreatedAt = DateTime.UtcNow;
  pet.UpdatedAt = DateTime.UtcNow;
- var sql = @"INSERT INTO Pets(Name, Species, Breed, Gender, BirthDate, AdoptDate, WeightKg, Neutered, MicrochipNumber, Color, AvatarUrl, PassingDate, Notes, CreatedAt, UpdatedAt)
- VALUES(@Name, @Species, @Breed, @Gender, @BirthDate, @AdoptDate, @WeightKg, @Neutered, @MicrochipNumber, @Color, @AvatarUrl, @PassingDate, @Notes, @CreatedAt, @UpdatedAt);
+ var sql = @"INSERT INTO Pets(Name, Species, Breed, Gender, BirthDate, AdoptDate, WeightKg, Neutered, MicrochipNumber, Color, AvatarUrl, PassedAwayDate, Notes, CreatedAt, UpdatedAt)
+ VALUES(@Name, @Species, @Breed, @Gender, @BirthDate, @AdoptDate, @WeightKg, @Neutered, @MicrochipNumber, @Color, @AvatarUrl, @PassedAwayDate, @Notes, @CreatedAt, @UpdatedAt);
  SELECT CAST(SCOPE_IDENTITY() as int);";
  var newId = await _db.ExecuteScalarAsync<int>(sql, pet);
  var created = await _db.QuerySingleOrDefaultAsync<Pet>("SELECT * FROM Pets WHERE Id = @Id", new { Id = newId });
@@ -48,7 +48,7 @@ public class PetsController : ControllerBase
  {
  if (id != pet.Id) return BadRequest();
  pet.UpdatedAt = DateTime.UtcNow;
- var sql = @"UPDATE Pets SET Name=@Name, Species=@Species, Breed=@Breed, Gender=@Gender, BirthDate=@BirthDate, AdoptDate=@AdoptDate, WeightKg=@WeightKg, Neutered=@Neutered, MicrochipNumber=@MicrochipNumber, Color=@Color, AvatarUrl=@AvatarUrl, PassingDate=@PassingDate, Notes=@Notes, UpdatedAt=@UpdatedAt WHERE Id=@Id";
+ var sql = @"UPDATE Pets SET Name=@Name, Species=@Species, Breed=@Breed, Gender=@Gender, BirthDate=@BirthDate, AdoptDate=@AdoptDate, WeightKg=@WeightKg, Neutered=@Neutered, MicrochipNumber=@MicrochipNumber, Color=@Color, AvatarUrl=@AvatarUrl, PassedAwayDate=@PassedAwayDate, Notes=@Notes, UpdatedAt=@UpdatedAt WHERE Id=@Id";
  var rows = await _db.ExecuteAsync(sql, pet);
  return rows ==0 ? NotFound() : NoContent();
  }
